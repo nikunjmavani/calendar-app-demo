@@ -74,37 +74,67 @@ class App extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  generateEvents = () => {
+  addEvent = (events, newEvent) => {
+
+    let eventAdded = false;
+
+    let updatedEvents = events.map(event => {
+      if(event.start.getTime() === newEvent.start.getTime()) {
+        if(event.title === newEvent.title) {
+          eventAdded = true;
+          return event
+        } else {
+          eventAdded = true;
+          return newEvent;
+        }
+      } else {
+        return event;
+      }
+    });
+
+    if(eventAdded) {
+      return updatedEvents
+    } else {
+      return [ ...updatedEvents, newEvent ]
+    }
+  } 
+
+  generateEvents =  async () => {
+
     if(!this.state.checkbox) {
+
       let newEvent = {
           title: this.state.dropdownValue,
-          allDay: true,
+          // allDay: true,
           start: this.state.openDialogDate,
-          end: this.state.openDialogDate
+          end: moment(this.state.openDialogDate).endOf('day').toDate()
       };
 
+      const updatedEvents = this.addEvent(this.state.events, newEvent);
+
       this.setState({
-        events: [ ...this.state.events, newEvent ],
+        events: updatedEvents,
         isDialogOpen: false,
         dropdownValue: 'Call with mate',
-      })
+      });
+
     } else {
       let startDate = this.state.openDialogDate;
       let nextDate = startDate;
-      let events = [];
+      let events = this.state.events;
 
       while(moment(nextDate).month() == moment(startDate).month()) {
         let newEvent = {
           title: this.state.dropdownValue,
-          allDay: true,
+          // allDay: true,
           start: nextDate,
-          end: nextDate
+          end: moment(nextDate).endOf('day').toDate()
         };
-        events.push(newEvent);
-        nextDate = moment(nextDate).add(1, 'week');
+        events = await this.addEvent(events, newEvent);
+        nextDate = moment(nextDate).add(1, 'week').toDate();
       }
       this.setState({
-        events: [ ...this.state.events, ...events ],
+        events: events,
         isDialogOpen: false,
         checkbox: false,
         dropdownValue: 'Call with mate',
