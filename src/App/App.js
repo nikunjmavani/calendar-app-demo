@@ -105,7 +105,7 @@ class App extends Component {
 
       let newEvent = {
           title: this.state.dropdownValue,
-          // allDay: true,
+          allDay: true,
           start: this.state.openDialogDate,
           end: moment(this.state.openDialogDate).endOf('day').toDate()
       };
@@ -126,7 +126,7 @@ class App extends Component {
       while(moment(nextDate).month() == moment(startDate).month()) {
         let newEvent = {
           title: this.state.dropdownValue,
-          // allDay: true,
+          allDay: true,
           start: nextDate,
           end: moment(nextDate).endOf('day').toDate()
         };
