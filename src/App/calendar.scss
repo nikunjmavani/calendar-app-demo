@@ -1,0 +1,211 @@
+
+// Liabrary overwrite css
+.rbc-calendar {
+    height: 100vh;
+    background: #f6f6f6;
+    .rbc-toolbar {
+        margin-top: 10px;
+
+        .rbc-toolbar-label {
+            font-size: 15px;
+        }
+
+        button {
+            border-radius: 25px;
+            outline: none;
+        }
+
+        .rbc-btn-group {
+            margin: 0 16px;
+            border-radius: 25px;
+            button {
+                background: #e3e3e3;
+                padding: 4px 8px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+            button:hover {
+                // background: #407cfa;
+            }
+            .rbc-active {
+                background-image: none;
+                box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+                background-color: #fff;
+                font-weight: 700;
+            }
+        }
+    }
+
+    .rbc-month-view {
+        .rbc-month-row {
+            border-top: 0 !important;
+            .rbc-date-cell {
+                padding: 4px 6px 0 0;
+            }
+            .rbc-row-bg {
+                .rbc-off-range-bg {
+                    background: #e3e3e3 !important;
+                }
+                .rbc-day-bg {
+                    background: #ededed;
+                    margin: 1px;
+                    border-radius: 6px;
+                    border-left: 0 !important;
+                }
+                .rbc-today {
+                    // background: #eaecff !important;
+                    background: #ededed !important;
+                }
+            }
+            .rbc-row-content {
+                z-index: 0;
+                .rbc-date-cell {
+
+                }
+                .rbc-off-range {
+                    opacity: 0.8;
+                }
+                .rbc-row {
+                    
+                }
+                .rbc-addons-dnd-row-body {
+                    .rbc-row {
+                        .rbc-row-segment {
+                            .rbc-event {
+                                // outline: none;
+                                // padding: 4px 6px;
+                                // background-color: #407cfa;
+                            }
+                        }
+                    }
+                    .rbc-row-segment {
+                        .rbc-event {
+                            // outline: none;
+                            // padding: 4px 6px;
+                            // background-color: #407cfa;
+                        }
+                    }
+                }
+            }
+        }        
+    }
+
+    .rbc-event {
+        outline: none;
+        padding: 2px 6px;
+        margin: 2px 0; 
+        color: #000;
+        background-color: #fff;
+        box-shadow: 0 0 0 2px hsla(0,0%,0%,0.05);
+        transition: box-shadow 0.085s ease-in 0s;
+        &:hover {
+            box-shadow: 0 0 0 2px hsla(0,0%,0%,0.1);
+        }
+    }
+    
+    .rbc-overlay {
+        z-index: 4;
+        max-height: 100%;
+        overflow: auto;
+    }
+
+    .rbc-addons-dnd-resizable {
+        height: auto !important;
+    }
+    
+    .rbc-calendar {
+        height: calc(100vh - 136px);
+    }
+    
+    .rbc-allday-cell {
+        max-height: 56px;
+        overflow-y: auto;
+    }
+
+    .rbc-show-more {
+        padding: 2px 0;
+        color: #4d4d4d;
+        background-color: unset;
+    }
+}
+
+#calendar {
+    height: 100%;
+
+    #ExpandBox {
+        top: 0 !important;
+    }
+
+    .add-record {
+        position: absolute;
+        bottom: 50px;
+        right: 50px;
+        background: #3871f9;
+        padding: 6px 10px;
+        border-radius: 25px;
+        font-size: 20px;
+        color: white;
+        box-shadow: 0 0 4px #fff;
+        transform: scale(1, 1);
+        transition: all 0.5s;
+        &:hover{
+            transform: scale(1.3, 1.3);
+        }
+    }
+
+    .modal-background {	
+        position: absolute;
+        width: 100%;
+        height: calc(100vh - 136px);
+        background-color: #222;
+        opacity: .5;
+        z-index: 1;
+    }
+    .modal-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .modal {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            left: 0;
+            background: white;
+            width: 350px;
+            height: 292px;
+            opacity: 1;
+            border-radius: 4px;
+            z-index: 200;
+            padding: 14px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .modal-header {
+                padding: 4px 0;
+                font-size: 16px;
+                border-bottom: 1px solid #797979;
+            }
+            .modal-desc {
+                padding: 4px 0;
+                font-size: 12px;
+            }
+            .columns-dropdown {
+                padding: 4px 0;
+            }
+            .create-column-field-buttons {
+                padding: 4px 0;
+                height: 30px;
+            }
+            .modal-footer {
+                padding: 4px 0;
+                bottom: 0;
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+    }
+}
