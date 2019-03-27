@@ -180,6 +180,7 @@ class App extends Component {
 
             <div className="dialog-content" >
             <div> {openDialogTitle} </div>
+              <span> RC - Receive </span>
               <select
                 name="dropdownValue"
                 style={{ marginTop: '12px' }}
