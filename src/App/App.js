@@ -19,7 +19,7 @@ import Typography from '@material-ui/core/Typography';
 
 import BigCalendar from 'react-big-calendar';
 import Toolbar from 'react-big-calendar/lib/Toolbar';
-import events from './events'
+// import events from './events'
 import moment from 'moment';
 import CustomToolbar from './customToolbar';
 
@@ -29,14 +29,14 @@ import './calendar.scss';
 const localizer = BigCalendar.momentLocalizer(moment);
 let views = [BigCalendar.Views["MONTH"],BigCalendar.Views["WEEK"]]
 
-
 class App extends Component {
 
   state = {
+    events: [],
     isDialogOpen: false,
     openDialogDate: '',
     openDialogTitle: '',
-    dropdownValue: 'title'
+    dropdownValue: 'Call with mate'
   }
 
   handleClickOnEvent = (e) => {
@@ -65,14 +65,52 @@ class App extends Component {
   }
 
   // handle checkox change
-  handleChangeCheckBox = name => event => {
-    this.setState({ [name]: event.target.checked });
+  handleChangeCheckBox = event => {
+    this.setState({ [event.target.name] : event.target.checked });
   };
 
   // handle dropdown change
   handleChangeDropDown = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
+
+  generateEvents = () => {
+    if(!this.state.checkbox) {
+      let newEvent = {
+          title: this.state.dropdownValue,
+          allDay: true,
+          start: this.state.openDialogDate,
+          end: this.state.openDialogDate
+      };
+
+      this.setState({
+        events: [ ...this.state.events, newEvent ],
+        isDialogOpen: false,
+        dropdownValue: 'Call with mate',
+      })
+    } else {
+      let startDate = this.state.openDialogDate;
+      let nextDate = startDate;
+      let events = [];
+
+      while(moment(nextDate).month() == moment(startDate).month()) {
+        let newEvent = {
+          title: this.state.dropdownValue,
+          allDay: true,
+          start: nextDate,
+          end: nextDate
+        };
+        events.push(newEvent);
+        nextDate = moment(nextDate).add(1, 'week');
+      }
+      this.setState({
+        events: [ ...this.state.events, ...events ],
+        isDialogOpen: false,
+        checkbox: false,
+        dropdownValue: 'Call with mate',
+      })
+    }
+  }
 
   render() {
     const { openDialogDate, openDialogTitle } = this.state;
@@ -87,13 +125,13 @@ class App extends Component {
         localizer - moment time zone
         onSelectEvent - when you click on any event */}
         <BigCalendar
-          events={events}
+          events={this.state.events}
           views={views}
           defaultDate={new Date(2015, 3, 1)}
           localizer={localizer}
           components = {{toolbar : CustomToolbar}}
           selectable={true}
-          onSelectEvent={event => this.handleClickOnEvent(event)}
+          // onSelectEvent={event => this.handleClickOnEvent(event)}
           onSelectSlot={event => this.handleClickOnSlot(event) }
         />
 
@@ -113,23 +151,22 @@ class App extends Component {
             <div className="dialog-content" >
             <div> {openDialogTitle} </div>
               <select
-                // onChange={this.handleChangeDropDown}
+                name="dropdownValue"
                 style={{ marginTop: '12px' }}
+                onChange={this.handleChangeDropDown}
               >
-                <option value="">None</option>
-                <option value={'title'}>Title</option>
-                <option value={'subtitle'}>SubTitle</option>
-                <option value={'date'}>Date</option>
+                <option value={'Call with mate'}>Call with mate</option>
+                <option value={'Metting'}>Metting</option>
               </select>
 
               <div style={{ marginTop: '12px' }}> 
-                <input type="checkbox" name="checkbox" /> {`Apply to all ${moment(openDialogDate).format("dddd")} in this month`}
+                <input type="checkbox" name="checkbox" onChange={this.handleChangeCheckBox} /> {`Apply to all ${moment(openDialogDate).format("dddd")} in this month`}
                 </div>
             </div>
             
           </DialogContent>
           <DialogActions>
-            <button onClick={this.handleClose}> OK </button>
+            <button onClick={this.generateEvents}> OK </button>
             <button onClick={this.handleClose}> Cancel </button>
           </DialogActions>
         </Dialog>

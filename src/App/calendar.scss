@@ -39,6 +39,7 @@
     .rbc-month-view {
         .rbc-month-row {
             border-top: 0 !important;
+            cursor: pointer;
             .rbc-date-cell {
                 padding: 4px 6px 0 0;
             }
@@ -60,7 +61,10 @@
             .rbc-row-content {
                 z-index: 0;
                 .rbc-date-cell {
-
+                    a{
+                        cursor: default;
+                        pointer-events: none;
+                    }
                 }
                 .rbc-off-range {
                     opacity: 0.8;
