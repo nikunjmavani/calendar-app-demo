@@ -14,3 +14,20 @@
   align-items: center;
   padding: 16px;
 }
+
+.info-div-wrapper {
+  min-height: 144px;
+}
+
+.info-div {
+  margin: 12px 24px;
+  padding: 8px 22px;
+  border: 1px solid black;
+  border-radius: 6px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+}
