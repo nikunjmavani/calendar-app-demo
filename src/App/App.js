@@ -32,6 +32,8 @@ let views = [
   BigCalendar.Views["WEEK"]
 ];
 
+
+// Main APP component
 class App extends Component {
   state = {
     events: this.getEventsFromLocalStorage(),
@@ -41,7 +43,8 @@ class App extends Component {
     dropdownValue: "Call with mate"
   };
 
-  // get events from local storage when you refresh
+  // Get events from local storage when you refresh the page 
+  // If there isn't, It will return empty array
   getEventsFromLocalStorage() {
     if(localStorage.getItem("events")) {
       let events = JSON.parse(localStorage.getItem("events")) || [];
@@ -57,14 +60,9 @@ class App extends Component {
     }
   }
 
-  handleClickOnEvent = e => {
-    this.setState({
-      isDialogOpen: true,
-      dialogDate: e.start,
-      dialogTitle: e.title
-    });
-  };
-
+  // Hanld click on slot - slot means every day box
+  // If you click on that box or on date, below function will handle click event
+  // and set clicked date to state.
   handleClickOnSlot = e => {
     if (e.action === "click") {
       this.setState({
@@ -74,6 +72,8 @@ class App extends Component {
     }
   };
 
+  // When we close the  dialog box, below function will handle and set 
+  // state appropriately
   handleClose = () => {
     this.setState({
       isDialogOpen: false,
@@ -82,17 +82,20 @@ class App extends Component {
     });
   };
 
-  // handle checkox change
+  // handle checkox which is there in dialog box change
+  // when you checked the checkbox, below function will set state accordingly
   handleChangeCheckBox = event => {
     this.setState({ [event.target.name]: event.target.checked });
   };
 
-  // handle dropdown change
+  // handle dropdown which is there in dialog box change
+  // when you change dropdown, below function will set state accordingly
   handleChangeDropDown = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  // add event in events
+  // Add event in events
+  // It will hanlde if there is event already, then update the same.
   addEvent = (events, newEvent) => {
     let eventAdded = false;
 
@@ -117,10 +120,12 @@ class App extends Component {
     }
   };
 
-  // generate event when we click on date
+  // Generate the events when you submit the dialog box
+  // Interanlly it uses add event function
   generateEvents = async () => {
 
     if (!this.state.checkbox) {
+
       // if checkbox isn't checked in modal, we only add one event
       let newEvent = {
         title: this.state.dropdownValue,
@@ -133,14 +138,18 @@ class App extends Component {
 
       const events = this.addEvent(this.state.events, newEvent);
 
+      // store the events in local storage
       localStorage.setItem("events", JSON.stringify(events));
+
+      // set events to state and reset the state
       this.setState({
         events: events,
         isDialogOpen: false,
         dropdownValue: "Call with mate"
       });
     } else {
-      // if checkbox is checked in modal, we need to add for all coming same weekdays
+
+      // if checkbox is checked in modal, we've to add for all coming same weekdays
       let startDate = this.state.dialogDate;
       let nextDate = startDate;
       let events = this.state.events;
@@ -160,7 +169,10 @@ class App extends Component {
           .toDate();
       }
 
+      // store the events in local storage
       localStorage.setItem("events", JSON.stringify(events))
+
+      // set events to state and reset the state
       this.setState({
         events: events,
         isDialogOpen: false,
@@ -170,6 +182,7 @@ class App extends Component {
     }
   };
 
+  // render method will render main page
   render() {
     const { dialogDate, dialogTitle } = this.state;
     const { classes } = this.props;
@@ -211,7 +224,10 @@ class App extends Component {
           </div>
 
           {/* BigCalendar 
-              events - all event we pass to calendar
+              This is the calendar component, we use for different month and week view.
+              Below is the props information, which we've passed
+              /############/
+              events - all event we pass to calendar component
               views - what views you want to show [ MONTH, WEEK ]
               localizer - moment time zone  - localize 
               components - Designed custom toolbar
@@ -271,6 +287,7 @@ class App extends Component {
   }
 }
 
+// Styel we apply to current component only
 const styles = theme => ({
   root: {
     display: "flex",
@@ -291,6 +308,7 @@ const styles = theme => ({
   }
 });
 
+// Dialog title for close button on right
 const DialogTitle = withStyles(theme => ({
   root: {
     borderBottom: `1px solid ${theme.palette.divider}`,

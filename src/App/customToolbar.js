@@ -8,7 +8,12 @@ import LeftArrowIcon from "@material-ui/icons/ChevronLeft";
 
 import "./App.css";
 
+// CustomToolbar component
+// Implemented for our custom requirement
+// we want arrows insted of next,back
+// and only month, week views
 export default class CalendarToolbar extends Toolbar {
+
   componentDidMount() {
     const view = this.props.view;
   }
