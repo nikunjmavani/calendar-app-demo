@@ -172,6 +172,8 @@ class App extends Component {
       // store the events in local storage
       localStorage.setItem("events", JSON.stringify(events))
 
+      console.log("development")
+
       // set events to state and reset the state
       this.setState({
         events: events,
